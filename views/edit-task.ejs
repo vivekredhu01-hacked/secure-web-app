@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container small">
+      <h1>Edit Task</h1>
+      <p>Logged in as <%= user.username %> (<%= user.role %>)</p>
+
+      <form method="POST" action="/tasks/<%= task.id %>/update" class="card">
+        <label>Title</label>
+        <input type="text" name="title" value="<%= task.title %>" required />
+
+        <label>Description</label>
+        <textarea name="description" rows="5"><%= task.description %></textarea>
+
+        <div class="actions">
+          <button type="submit">Update</button>
+          <a href="/tasks" class="btn-link">Cancel</a>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

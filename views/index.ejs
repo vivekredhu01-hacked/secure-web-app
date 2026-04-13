@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="topbar">
+        <div>
+          <h1>Tasks</h1>
+          <p>Logged in as <strong><%= user.username %></strong> (<%= user.role %>)</p>
+        </div>
+        <div class="actions">
+          <a href="/tasks/new" class="btn-link">+ New Task</a>
+          <a href="/logout" class="btn-link">Logout</a>
+        </div>
+      </header>
+
+      <section class="list">
+        <% if (!tasks.length) { %>
+        <article class="card empty">
+          <p>No tasks yet. Create your first task to get started.</p>
+        </article>
+        <% } %>
+
+        <% tasks.forEach(task => { %>
+        <article class="card">
+          <h3 class="task-title"><%= task.title %></h3>
+          <p class="task-text"><%= task.description %></p>
+          <small class="task-meta">Owner: <%= task.owner_name %></small>
+          <div class="actions">
+            <a href="/tasks/<%= task.id %>/edit" class="btn-link">Edit</a>
+            <form method="POST" action="/tasks/<%= task.id %>/delete">
+              <button type="submit" class="danger">Delete</button>
+            </form>
+          </div>
+        </article>
+        <% }) %>
+      </section>
+    </main>
+  </body>
+</html>
