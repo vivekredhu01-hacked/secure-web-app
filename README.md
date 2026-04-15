@@ -36,12 +36,19 @@ These vulnerabilities are documented in the project report with recommendations 
 7. JavaScript
 ## Project Structure
 Webapp/
+
 ├── server.test.js # Test version of server.js.rver file
+
 ├── db.js              # Database configuration
+
 ├── app.db.log # Logs for the application.storage
+
 ├── package.json       # Project dependencies
+
 ├── public/            # Static assets
+
 ├── views/             # EJS templates
+
 └── README.md          # Documentation
 ## Installation & Setup
 ### Prerequisites
