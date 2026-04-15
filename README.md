@@ -24,6 +24,7 @@ Testing and demonstrating the vulnerabilities still present are:
 3. Lack of CSRF on state changing forms.
 4. No brute-force limiting of logins.
 5. Inadequate authentication of routes.
+   
 These vulnerabilities are documented in the project report with recommendations for mitigation.
 ## Technologies Used
 1. Node.js
