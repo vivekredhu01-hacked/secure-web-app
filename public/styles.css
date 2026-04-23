@@ -128,6 +128,10 @@ a:hover {
   background: #f4f7fe;
 }
 
+button.btn-link {
+  font-weight: 500;
+}
+
 button {
   border: 0;
   background: var(--primary);

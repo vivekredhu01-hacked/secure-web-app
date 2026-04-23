@@ -15,7 +15,10 @@
         </div>
         <div class="actions">
           <a href="/tasks/new" class="btn-link">+ New Task</a>
-          <a href="/logout" class="btn-link">Logout</a>
+          <form method="POST" action="/logout">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button type="submit" class="btn-link">Logout</button>
+          </form>
         </div>
       </header>
 
@@ -34,6 +37,7 @@
           <div class="actions">
             <a href="/tasks/<%= task.id %>/edit" class="btn-link">Edit</a>
             <form method="POST" action="/tasks/<%= task.id %>/delete">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
               <button type="submit" class="danger">Delete</button>
             </form>
           </div>
