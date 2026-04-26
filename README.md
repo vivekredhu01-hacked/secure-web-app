@@ -1,124 +1,208 @@
-# Secure Task Manager Web App
+# Secure Task Management Web Application
 
-## Overview
-This project is a role-based task manager built for secure web development coursework. It supports CRUD operations, layered architecture (view + application + storage), and two user roles with different privileges.
+## Project Title and Overview
 
-The app was first built as an insecure baseline, then hardened with practical security controls.
+The Secure Task Management Web Application is a multi-user web-based productivity system developed for the Secure Web Development module. The primary purpose of the application is to allow authenticated users to create, view, update, and delete personal tasks through a secure browser-based interface.
 
-## Core Features
-- Session-based authentication (login/logout)
-- Role-based authorization:
-  - `admin`: can access all tasks
-  - `user`: can access only own tasks
-- Full CRUD for tasks:
-  - Create, Read, Update, Delete
-- Professional light-theme UI with EJS templates
-- Persistent file-backed storage using LokiJS
+The project focuses not only on functionality, but also on implementing practical web security controls such as password hashing, secure session handling, role-based authorization, CSRF protection, input validation, and brute-force login protection. The application demonstrates how an initially basic CRUD system can be improved into a more secure web solution.
 
-## Tech Stack
-- Node.js
-- Express.js
-- EJS
-- LokiJS
-- HTML/CSS/JavaScript
+---
 
-## Security Considerations Implemented
+## Features and Security Objectives
 
-### 1) Password Security
-- Passwords are stored as `password_hash` values using `bcryptjs`.
-- Legacy plaintext passwords are migrated to hashes at startup.
-- Login compares hash using `bcrypt.compareSync()`.
+### Core Features
 
-### 2) Session Hardening
-- Uses `express-session` with secure cookie options:
-  - `httpOnly: true`
-  - `sameSite: "strict"`
-  - `secure: true` in production
-  - `maxAge` configured
-- Session ID is regenerated after successful login to reduce session fixation risk.
-- `x-powered-by` header is disabled.
+* User login
+* Logout functionality
+* Create, Read, Update, Delete (CRUD) tasks
+* Multi-user task ownership
+* Role-based access (Admin / User)
+* Dashboard using EJS templates
+* Local persistent database storage
 
-### 3) CSRF Protection
-- Uses `csurf` middleware globally.
-- All state-changing forms include CSRF token:
-  - login
-  - logout
-  - create task
-  - update task
-  - delete task
-- Invalid token requests are blocked with `403`.
+### Security Objectives
 
-### 4) Brute-Force Mitigation
-- Uses `express-rate-limit` on `POST /login`.
-- Limits repeated login attempts in a time window.
+* Protect user credentials using password hashing
+* Restrict unauthorized access to protected routes
+* Prevent users from modifying other users’ tasks
+* Protect forms against CSRF attacks
+* Prevent brute-force login attempts
+* Validate and sanitize user input
+* Improve secure session management
 
-### 5) Input Validation and Sanitization
-- User input is normalized, trimmed, and length-limited.
-- Task IDs are validated before processing.
-- Task title minimum length enforced server-side.
-- Request body parser uses safer settings (`extended: false`, limited body size).
+---
 
-## Why This Mitigates Common Vulnerabilities
-- **SQL Injection**: not applicable in classic form because the app uses LokiJS (no raw SQL queries).
-- **CSRF**: mitigated by anti-CSRF tokens and server verification.
-- **Session Attacks**: reduced by secure cookie settings and session regeneration.
-- **Credential Stuffing/Brute Force**: reduced by login rate limiting.
-- **Unsafe Input Abuse**: reduced by validation/sanitization and strict ID checks.
+## Technologies Used
+
+* Node.js
+* Express.js
+* EJS
+* LokiJS
+* HTML / CSS / JavaScript
+
+---
 
 ## Project Structure
-```text
+
+```text id="x4fz6j"
 Webapp/
-├── server.js          # Routes, auth, validation, security middleware
-├── db.js              # LokiJS setup + seed users + password migration
-├── app.db.json        # Persistent data file
-├── package.json
-├── public/
-│   └── styles.css
-├── views/
-│   ├── login.ejs
-│   ├── index.ejs
-│   ├── new-task.ejs
-│   └── edit-task.ejs
-└── README.md
+│── server.js              # Main server logic, routes, security middleware
+│── db.js                  # Database initialization and password migration
+│── app.db.json            # Local JSON database (users/tasks)
+│── package.json           # Dependencies and scripts
+│── public/
+│   └── styles.css         # Frontend styles
+│── views/
+│   ├── login.ejs          # Login page
+│   ├── index.ejs          # Dashboard / task list
+│   ├── new-task.ejs       # Create task page
+│   └── edit-task.ejs      # Update task page
+│── README.md
 ```
 
-## Setup and Run
+---
 
-### Prerequisites
-- Node.js 18+ (or newer)
-- npm
+## Setup and Installation Instructions
 
-### Install
-```bash
-cd "Webapp"
+### 1. Clone Repository
+
+```bash id="5h6fli"
+git clone https://github.com/vivekredhu01-hacked/secure-web-app.git
+cd Webapp
+```
+
+### 2. Install Dependencies
+
+```bash id="k7r3c5"
 npm install
 ```
 
-### Start
-```bash
+### 3. Run Application
+
+```bash id="9pt5yr"
 npm start
 ```
 
-Open: [http://localhost:3000](http://localhost:3000)
+### 4. Open in Browser
 
-## Demo Credentials
-- Admin: `admin` / `admin123`
-- User: `alice` / `alice123`
-
-## Environment Variables (Recommended)
-For production:
-
-```bash
-export SESSION_SECRET="replace-with-long-random-secret"
-export NODE_ENV=production
+```text id="nmn2js"
+http://localhost:3000
 ```
 
-## Quick Security Demo Checklist (for viva/video)
-1. Show hashed passwords in `db.js` (`password_hash`, bcrypt).
-2. Show secure session config in `server.js`.
-3. Show CSRF middleware and `_csrf` hidden fields in views.
-4. Show rate limiter on login route.
-5. Show input sanitization/validation helpers and checks.
+---
 
-## Academic Note
-This project is for educational use and demonstrates secure coding improvements on a previously vulnerable baseline application.
+## Usage Guidelines
+
+### Demo Accounts
+
+```text id="m1zw80"
+Admin:
+Username: admin
+Password: admin123
+
+Standard User:
+Username: alice
+Password: alice123
+```
+
+### How to Use
+
+1. Login using a valid account
+2. Access the dashboard
+3. Create new tasks
+4. Edit existing tasks
+5. Delete tasks
+6. Logout securely
+
+### Role Behaviour
+
+* **Admin** can view and manage all tasks
+* **Standard users** can only manage their own tasks
+
+---
+
+## Security Improvements Implemented
+
+### Authentication Security
+
+* Passwords hashed using bcryptjs
+* Secure password comparison during login
+* Session regeneration after successful login
+
+### Session Security
+
+* Custom session cookie name
+* HttpOnly cookies
+* SameSite=Strict
+* Secure cookies in production mode
+* Session expiry configured
+
+### Authorization
+
+* Protected routes require login
+* Ownership checks for edit/delete actions
+* Role-based task visibility
+
+### CSRF Protection
+
+* Implemented using csurf middleware
+* Tokens added to all POST forms:
+
+  * Login
+  * Logout
+  * Create Task
+  * Update Task
+  * Delete Task
+
+### Input Validation
+
+* Sanitized user input
+* Task title minimum length enforced
+* Task ID validation
+
+### Brute Force Protection
+
+* Login route protected using express-rate-limit
+
+---
+
+## Testing Process
+
+### Functional Testing
+
+* User registration/login tested
+* CRUD operations verified
+* Role-based restrictions confirmed
+
+### Static Application Security Testing (SAST)
+
+Manual source-code review was conducted on:
+
+* Authentication logic
+* Session configuration
+* Route protection
+* Validation routines
+* Security middleware
+
+### Security Testing Results
+
+* Password hashes confirmed in database
+* CSRF tokens verified in forms
+* Unauthorized routes redirected to login
+* Session logout destroys session
+* Rate limiting protects repeated login attempts
+
+---
+
+### Frameworks / Libraries Used
+
+* Node.js
+* Express.js
+* EJS
+* LokiJS
+* bcryptjs
+* express-session
+* csurf
+* express-rate-limit
+
+
